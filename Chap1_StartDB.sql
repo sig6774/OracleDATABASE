@@ -36,6 +36,12 @@ FROM EMPLOYEES;
 SELECT DISTINCT DEPARTMENT_ID FROM EMPLOYEES;
 --DISTINCT : 조회할 때 중복을 제거하여 출력
 
+/*  ROWNUM ROWID
+    (중요)ROWNUM : Query에 의해 반환되는 행 번호 출력
+    ROWID : DB에서 행의 주소값을 반환 */
+SELECT ROWNUM, ROWID, EMPLOYEE_ID
+FROM EMPLOYEES;
+
 SELECT SALARY 
 FROM employees
 WHERE department_id = 80;
