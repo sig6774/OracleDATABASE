@@ -127,6 +127,111 @@ FROM
 SELECT
     first_name,
     nvl2(commission_pct, 'TRUE', 'FALSE')
+--    조건 연산자(exp ? a : b)와 유사
 FROM
     employees;
 --commission을 받는 사람과 받지 않는 사람을 구분할 수 있음
+SELECT
+    first_name,
+    commission_pct,
+    nvl2(commission_pct, salary +(salary * commission_pct), salary) AS real_salary
+FROM
+    employees
+ORDER BY REAL_SALARY DESC;
+--commission_pct가 null이 아닌 사람은 commission을 포함한 salary를 보여주고 null이면 그냥 salary보여줌
+
+
+
+--DECODE(컬럼 혹은 표현식, 항목1, 결과1, 항목2, 결과2, ... default)
+SELECT DECODE('A', 'A', 'A입니다.', 'B', 'B입니다', '모르겠어요')
+FROM dual;
+
+SELECT
+    job_id,
+    salary,
+    decode(job_id, 'IT_PROG', salary * 1.1, 'FI_MGR', salary * 1.2,
+           'AD_VP', salary * 1.3, salary) AS result
+FROM
+    employees;
+    
+--CASE WHEN THEN END
+SELECT
+    first_name,
+    job_id,
+    salary,
+    (
+        CASE job_id
+            WHEN 'IT_PROG'    THEN
+                salary * 1.1
+            WHEN 'FI_MGR'     THEN
+                salary * 1.2
+            WHEN 'FI_ACCOUNT' THEN
+                salary * 1.3
+            WHEN 'AD_VP'      THEN
+                salary * 1.4
+            ELSE
+                salary
+        END
+    ) AS result
+FROM
+    employees
+ORDER BY
+    result DESC;
+    
+    
+    
+/* 문제1
+현재일자를 기준으로 EMPLOYEE테이블의 입사일자를 참조해서 근속년수가 15년 인상인 사원을 
+다음과 같은 형태의 결과를 출력하도록 쿼리를 작성하세요.
+조건 1) 근속년수가 높은 사원 순서대로 결과가 나오도록 합니다.
+*/
+SELECT
+    employee_id                        AS 사원번호,
+    concat(first_name, last_name)      AS 사원명,
+    hire_date                          AS 입사일자,
+    trunc((sysdate - hire_date) / 365) AS 근속년수
+FROM
+    employees
+WHERE
+    ( sysdate - hire_date ) / 365 >= 15
+ORDER BY
+    근속년수 DESC;
+--WHERE에 ALISA명을 적으면 조회가 안됨 
+--왜냐하면 SQL의 순서가 FROM -> WHERE로 진행되기 때문에 SELECT에서 ALISA한 것을 인식하지 못함
+--ORDER BY에서 먹히는 이유는 맨 마지막에 실행되기 때문(SELECT이후)
+
+/* 문제2
+EMPLOYEE 테이블의 manager_id 컬럼을 확인하여 first_name, manager_id, 직급을 출력합니다. 
+department_id가 50인 사람들을 대상으로만 조회합니다.
+*/
+SELECT
+    first_name,
+    manager_id,
+    (
+        CASE manager_id
+            WHEN 100 THEN
+                '사원'
+            WHEN 120 THEN
+                '주임'
+            WHEN 121 THEN
+                '대리'
+            WHEN 122 THEN
+                '과장'
+            ELSE
+                '임원'
+        END
+    ) AS 직급
+FROM
+    employees
+WHERE
+    department_id = 50;
+    
+SELECT
+    first_name,
+    manager_id,
+    decode(manager_id, 100, '사원', 120, '주임',
+           121, '대리', 122, '과장', '임원') AS 직급
+FROM
+    employees
+WHERE
+    department_id = 50;
