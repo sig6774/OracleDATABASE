@@ -71,4 +71,36 @@ SELECT
 FROM
     dual;
 
+--LTRIM(문자, 제거할문자), RTRIM(문자, 제거할문자) TRIM(문자, 제거할문자) 좌, 우, 양옆에 있는 특정 문자 제거
+SELECT
+    ltrim('   Lunch    ', ' ')
+FROM
+    dual;
 
+SELECT
+    rtrim('   Lunch    ', ' ')
+FROM
+    dual;
+
+--REPLACE(기준문자열, 특정문자, 바꿀문자) 문자를 바꾸는 함수 
+SELECT
+    replace('MY DREAM IS AS PRESIDENT', 'PRESIDENT', 'DOCTOR')
+FROM
+    dual;
+
+SELECT
+    replace('MY DREAM IS AS PRESIDENT', ' ', '')
+FROM
+    dual;
+--공백제거
+SELECT
+    replace(replace('MY DREAM IS AS PRESIDENT', 'PRESIDENT', 'DOCTOR'), ' ', '')
+FROM
+    dual;
+--president를 doctor로 변환한 것을 다시 replace함수를 사용해서 공백을 제거
+
+SELECT
+    replace(replace(concat('hello ', 'world!'), '!', '?'), ' ', '')
+FROM
+    dual;
+--hello world!로 합치고 !를 ?로 변경하고 공백도 제거
