@@ -130,3 +130,16 @@ WHERE
 일반조건으로 부서 번호가 80번인 애들만 조회하라고 했는데 outer를 사용했으므로 
 select에 정의된 모든 data를 불러오므로 outer에서 일반 조건은 의미가 없으
 */
+
+--셀프조인
+--자기 자신의 테이블을 중복으로 join하여 테이블의 정보를 조회
+SELECT
+    e1.employee_id,
+    e1.first_name,
+    e1.manager_id,
+    e2.first_name,
+    e2.employee_id
+FROM
+         employees e1
+    JOIN employees e2 ON e1.manager_id = e2.employee_id;
+--특정 직원의 매니저가 누군지 조회
