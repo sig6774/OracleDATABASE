@@ -152,5 +152,7 @@ FROM employees e1 INNER JOIN employees e2 ON e1.manager_id = e2.employee_id;
 직원 테이블에서 left join하여 매니저 이름, 매니저 급여까지 출력하세요. 
 */
 SELECT DISTINCT e2.first_name, e2.salary
-FROM employees e1 INNER JOIN employees e2 ON e1.manager_id = e2.employee_id
+FROM employees e1 LEFT OUTER JOIN employees e2 ON e1.manager_id = e2.employee_id
+WHERE e1.manager_id IS NOT NULL
 ORDER BY e2.salary DESC;
+
