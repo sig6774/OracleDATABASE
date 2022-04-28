@@ -318,7 +318,7 @@ FROM
          (
         SELECT
             last_name,
-            job_id,
+            job_id, 
             department_id
         FROM
             employees
@@ -364,3 +364,4 @@ FROM
             department_id
     )         groupemp ON d.department_id = groupemp.department_id;
 --우선 안에 들어가는 서브쿼리부터 먼저 작성(여기서 그룹화)하고 조인하여 나머지 정보 출력
+
